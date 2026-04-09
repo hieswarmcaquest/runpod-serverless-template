@@ -4,9 +4,11 @@ import soundfile as sf
 import io
 
 # API_URL = "http://localhost:80/v1/audio/speech"
+# HOST = "localhost"
 HOST = "localhost"
 PORT = 80
 BASE_URL = f"http://{HOST}:{PORT}"
+# BASE_URL = "https://kp8mtvc0stoyc0.api.runpod.ai"
 API_URL = f"{BASE_URL}/v1/audio/speech"
 HEALTH_URL = f"{BASE_URL}/ping"
 

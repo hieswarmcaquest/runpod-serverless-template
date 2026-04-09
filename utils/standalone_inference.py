@@ -21,3 +21,4 @@ def convert_text_to_speech(text, voice="af_heart"):
 if __name__ == "__main__":
     audio = convert_text_to_speech("This is sample text for testing.")
     sf.write("output.wav", audio, 16000)
+    print("Audio saved to output.wav")

@@ -1,6 +1,6 @@
 import gradio as gr
-from sample_request import convert_text_to_speech_using_api
-
+# from sample_request import convert_text_to_speech_using_api
+from runpod_inference import convert_text_to_speech_using_api
 
 with gr.Blocks(title="Kokoro TTS (Local Docker)") as demo:
     gr.Markdown("# 🦜 Kokoro TTS - Local CPU Docker")
