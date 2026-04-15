@@ -1,0 +1,21 @@
+FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
+
+# Install system dependencies (espeak-ng is crucial for Kokoro)
+RUN apt-get update && apt-get install -y \
+    espeak-ng \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /
+
+# Install Kokoro and Web API dependencies
+RUN pip install --no-cache-dir kokoro>=0.19 soundfile fastapi uvicorn python-multipart
+
+# Copy the app folder
+COPY app /app
+
+# Expose the port we will use
+EXPOSE 80
+
+# Start the API server
+ENTRYPOINT ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "80"]
