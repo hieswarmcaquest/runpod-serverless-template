@@ -1,24 +1,24 @@
-FROM python:3.10-slim
+FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
 
-# Install system dependencies (espeak-ng is crucial for Kokoro)
+# System deps
 RUN apt-get update && apt-get install -y \
+    python3-pip \
     espeak-ng \
     libsndfile1 \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /
+WORKDIR /app
 
-# Install CPU-only Torch (keeps image light)
-RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+# Install Python deps
+RUN pip3 install --no-cache-dir \
+    torch \
+    kokoro>=0.19 \
+    soundfile \
+    runpod \
+    numpy
 
-# Install Kokoro and Web API dependencies
-RUN pip install --no-cache-dir kokoro>=0.19 soundfile fastapi uvicorn python-multipart
-
-# Copy the app folder
+# Copy app
 COPY app /app
 
-# Expose the port we will use
-EXPOSE 80
-
-# Start the API server
-ENTRYPOINT ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "80"]
+# Start handler
+CMD ["python3", "handler.py"]
